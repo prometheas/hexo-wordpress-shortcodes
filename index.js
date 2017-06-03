@@ -10,14 +10,21 @@ const parser = shortcodes();
  * @param {Hexo} hexo
  */
 parser.bindToHexo = (hexo) => {
+  const shortcodeHandlers = hexo.locals.get('shortcodes') || {};
+
+  Object.keys(shortcodeHandlers).forEach((name) => {
+    const callable = shortcodeHandlers[name];
+    parser.add(name, callable);
+  });
+
   hexo.extend.filter.register('before_post_render', (data) => {
     data.content = parser.parse(data.content);
     return data;
   });
 };
 
-if (typeof global.hexo !== 'undefined') {
-  parser.bindToHexo(global.hexo);
+if (typeof hexo !== 'undefined') {
+  parser.bindToHexo(hexo);
 }
 
 module.exports = parser;

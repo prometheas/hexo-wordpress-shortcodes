@@ -3,3 +3,6 @@
 
   env:
     node: true
+
+  globals:
+    hexo: false

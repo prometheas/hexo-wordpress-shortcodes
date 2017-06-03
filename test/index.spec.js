@@ -32,8 +32,12 @@ describe('index', () => {
 
       expect(execFilter(hexo, sampleText).content).to.match(/\[bold\]with\[\/bold\] /);
 
+      hexo.locals.set('shortcodes', {
+        bold: (atts, content) => (`<b>${content}</b>`),
+      });
+
       plugin.bindToHexo(hexo);
-      plugin.add('bold', (atts, content) => (`<b>${content}</b>`));
+
       expect(execFilter(hexo, sampleText).content).to.match(/<b>with<\/b>/);
     });
   });
